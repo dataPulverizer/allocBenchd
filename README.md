@@ -18,9 +18,9 @@ Compile and run with
 ```
 dmd allocBench.d -version=verbose && ./allocBench
 ```
-to see messages.
+`-version=verbose` shows progress messages.
 
-**The maximum array size (nmax) is very large by default which will take time, so you might want to turn it to `10_000`.**
+**The maximum array size (nmax) is very large by default which will take time, so you might want to change it to something like `10_000`.**
 
 
 Enjoy!
