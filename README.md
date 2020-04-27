@@ -20,7 +20,8 @@ dmd allocBench.d -version=verbose && ./allocBench
 ```
 to see messages.
 
-The maximum array size (nmax) is very large by default which will take time, so you might want to turn it to `10_000`.
+**The maximum array size (nmax) is very large by default which will take time, so you might want to turn it to `10_000`.**
+
 
 Enjoy!
 
