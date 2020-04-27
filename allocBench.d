@@ -24,7 +24,7 @@ struct Row
 }
 
 /**
-  Converts rows to string output ready to be written to file
+  Writes rows to file
 */
 auto writeRows(string fileName, Row[] rows)
 {
