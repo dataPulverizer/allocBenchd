@@ -108,6 +108,7 @@ auto writePlot(string chartFileName, string dataFile, long nsamp, long maxMalloc
   string wd = getcwd();
   string mallocYLim = maxMallocTime < 1 ? "" : `, ylim = c(0, ` ~ to!(string)(maxMallocTime) ~ `)`;
   string freeYLim = maxMallocTime < 1 ? "" : `, ylim = c(0, ` ~ to!(string)(maxFreeTime) ~ `)`;
+  string sampleString = nsamp < 1 ? "" : `[sample(nrow(dat) - 2, ` ~ to!(string)(nsamp) ~ `),]`;
   string script = `"
   setwd(\"`~ wd ~ `\")
   require(data.table)
@@ -115,30 +116,26 @@ auto writePlot(string chartFileName, string dataFile, long nsamp, long maxMalloc
   jpeg(\"`~ chartFileName ~ `\", width = 14, height = 5, units = \"in\", res = 300)
   par(mfrow = c(1, 2))
   # Remove the first two rows of data in the plot
-  dat[-c(1:2),][sample(nrow(dat) - 2, ` ~ to!(string)(nsamp) ~ `), ][name == \"malloc\", plot(time ~ length, pch = 20, col = rgb(0, 0, 0, 0.3), ylab = \"time (ns)\", xlab = \"array length\", main = name[1]` ~ mallocYLim ~ `)]
-  dat[-c(1:2),][sample(nrow(dat) - 2, ` ~ to!(string)(nsamp) ~ `), ][name == \"free\", plot(time ~ length, pch = 20, col = rgb(0, 0, 0, 0.3), ylab = \"time (ns)\", xlab = \"array length\", main = name[1]` ~ freeYLim ~ `)]
+  dat[-c(1:2),]` ~ sampleString ~ `[name == \"malloc\", plot(time ~ length, pch = 20, col = rgb(0, 0, 0, 0.3), ylab = \"time (ns)\", xlab = \"array length\", main = name[1]` ~ mallocYLim ~ `)]
+  dat[-c(1:2),]` ~ sampleString ~ `[name == \"free\", plot(time ~ length, pch = 20, col = rgb(0, 0, 0, 0.3), ylab = \"time (ns)\", xlab = \"array length\", main = name[1]` ~ freeYLim ~ `)]
   dev.off()"`;
   
+  version(verbose)
+  {
+    writeln("Writing plots to file: ", chartFileName);
+  }
   auto output = executeShell("Rscript -e " ~ script);
   if(output.status != 0)
     writeln("Compilation failed:\n", output.output);
-  else
+  
+  version(verbose)
+  {
     writeln("output :\n", output.output);
+    writeln("Finished writing file.");
+  }
 
   return;
 }
-void testRCall()
-{
-  string wd = getcwd();
-  auto script = `"setwd(\"` ~ wd ~ `\"); pdf('rplot.pdf'); plot(1:10); dev.off()"`;
-  auto output = executeShell("Rscript -e " ~ script);
-  if(output.status != 0)
-    writeln("Compilation failed:\n", output.output);
-  else
-    writeln("output :\n", output.output);
-  return;
-}
-
 
 void main()
 {
@@ -148,12 +145,14 @@ void main()
   long nPoints = 1000_000;
   
   /* if number of points doesn't make sence, all points are plotted */
-  if((nPoints > ntrials*nmax) || (nPoints < 1))
+  if((nPoints > ntrials*nmax))
     nPoints = ntrials*nmax;
   
   string benchFile = "allocBench.csv";
   benchFile.writeRows(memoryBench!('x')(ntrials, nmax));
-  string chartName = "allocBench.jpeg";
+  string chartName = "allocBench.jpg";
   /* The last two number are the maximum y values on the range of each plot */
   chartName.writePlot(benchFile, nPoints, 60_000, 1000);
 }
+
+                                    
