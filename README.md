@@ -25,8 +25,11 @@ On the R interpreter.
 
 Enjoy!
 
+
+<sub><sup>
 <style>
 .plot {
    width: 50vw;
 }
 </style>
+</sub></sup>
