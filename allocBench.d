@@ -61,20 +61,21 @@ auto memoryBench(alias x, string units = "nsecs", uint mask = GC.BlkAttr.NO_SCAN
   {
     version(verbose)
     {
-      writeln("Running for length = ", n);
+      if(n % 10_000 == 0)
+        writeln("Running for length = ", n);
     }
     for(long i = 0; i < ntrials; ++i)
     {
       /* Malloc */
       sw.start();
       auto arr = (cast(T*)GC.malloc(T.sizeof*n, mask))[0..n];
-      version(safe)
+      version(verify)
       {
         if(arr == null)
           assert(0, "Array Allocation Failed!");
       }
-      arr[] = x;
       sw.stop();
+      arr[] = x; // I don't want anything to optimise away the array instantiation
       results[j] = Row('m', i, n, cast(double)sw.peek.total!units);
       sw.reset(); ++j;
 
@@ -113,7 +114,7 @@ auto writePlot(string chartFileName, string dataFile, long nsamp, long maxMalloc
   setwd(\"`~ wd ~ `\")
   require(data.table)
   dat = fread(\"` ~ dataFile ~ `\")
-  jpeg(\"`~ chartFileName ~ `\", width = 14, height = 5, units = \"in\", res = 300)
+  jpeg(\"`~ chartFileName ~ `\", width = 12, height = 6, units = \"in\", res = 200)
   par(mfrow = c(1, 2))
   # Remove the first two rows of data in the plot
   dat[-c(1:2),]` ~ sampleString ~ `[name == \"malloc\", plot(time ~ length, pch = 20, col = rgb(0, 0, 0, 0.3), ylab = \"time (ns)\", xlab = \"array length\", main = name[1]` ~ mallocYLim ~ `)]
@@ -133,9 +134,10 @@ auto writePlot(string chartFileName, string dataFile, long nsamp, long maxMalloc
     writeln("output :\n", output.output);
     writeln("Finished writing file.");
   }
-
+  
   return;
 }
+
 
 void main()
 {
