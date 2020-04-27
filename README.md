@@ -8,13 +8,11 @@ The plot sampes data from the created benchmark table, the number of points to s
 
 ## Prerequisites
 
-You'll need an installation of D and R, also you need the `data.table` R package installable with:
+You'll need an installation of D and R, also you need the `data.table` R package installable on the R interpreter with:
 
 ```
 install.packages("data.table")
 ```
-On the R interpreter.
-
 
 Compile and run with
 ```
