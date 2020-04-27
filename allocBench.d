@@ -140,7 +140,7 @@ auto writePlot(string chartFileName, string dataFile, long nsamp, long maxMalloc
 void main()
 {
   // generates ntrails*nmax points
-  long ntrials = 100; long nmax = 1000_000;
+  long ntrials = 10; long nmax = 1000_000;
   // number of points to plot
   long nPoints = 1000_000;
   
