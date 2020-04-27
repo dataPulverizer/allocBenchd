@@ -6,14 +6,6 @@ At the moment the chart is plotted using R's base graphic, here is an example of
 
 The plot sampes data from the created benchmark table, the number of points to sample in the plot is `nPoints` in main. Set to -1 if you want all the data to be plotted.
 
-Compile and run with
-```
-dmd allocBench.d -version=verbose && ./allocBench
-```
-to see messages.
-
-The maximum array size (nmax) is very large by default which will take time, so you might want to turn it to `10_000`.
-
 ## Prerequisites
 
 You'll need an installation of D and R, also you need the `data.table` R package installable with:
@@ -22,6 +14,15 @@ You'll need an installation of D and R, also you need the `data.table` R package
 install.packages("data.table")
 ```
 On the R interpreter.
+
+
+Compile and run with
+```
+dmd allocBench.d -version=verbose && ./allocBench
+```
+to see messages.
+
+The maximum array size (nmax) is very large by default which will take time, so you might want to turn it to `10_000`.
 
 Enjoy!
 
