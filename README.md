@@ -14,7 +14,7 @@ You'll need an installation of [D](https://dlang.org/) and [R](https://cran.r-pr
 install.packages("data.table")
 ```
 
-Compile and run with
+Compile and run with (linux):
 ```
 dmd allocBench.d -version=verbose && ./allocBench
 ```
