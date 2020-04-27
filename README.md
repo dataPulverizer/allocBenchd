@@ -7,7 +7,7 @@ The function
 ```
 auto memoryBench(alias x, string units = "nsecs", uint mask = GC.BlkAttr.NO_SCAN)(long ntrials, long nmax)
 ```
-is the benchmarking function. The `mask` template parameter determines how D's garbage collection executes and defaults to a fast [mode](https://dlang.org/phobos/core_memory.html#.GC.malloc); `units` is the time unit described [here](https://dlang.org/phobos/std_datetime_stopwatch.html), the template parameter `x` is an instance of what the array should be filled with, it can be of any type.
+is the benchmarking function. The `mask` template parameter determines how D's garbage collection executes and defaults to a fast [mode](https://dlang.org/phobos/core_memory.html#.GC.malloc); `units` is the time unit described [here](https://dlang.org/phobos/std_datetime_stopwatch.html), the template parameter `x` is an element instance of what the array should be filled with, it can be of any type.
 
 At the moment the chart is plotted using R's base graphic, here is an example of what the chart looks like: <img class="plot" src="https://github.com/dataPulverizer/allocBenchd/blob/master/allocBench.jpeg">
 
