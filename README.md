@@ -10,4 +10,13 @@ to see messages.
 
 The maximum array size (nmax) is very large by default which will take time, so you might want to turn it to `10_000`.
 
+## Prerequisites
+
+You'll need an installation of D and R, also you need the `data.table` R package installable with:
+
+```
+install.packages("data.table")
+```
+On the R interpreter.
+
 Enjoy!
